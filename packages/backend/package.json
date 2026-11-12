@@ -1,0 +1,20 @@
+{
+  "name": "@pmd/backend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "dev": "node --watch --env-file-if-exists=../../.env --import tsx src/server.ts"
+  },
+  "dependencies": {
+    "@pmd/shared": "0.1.0",
+    "drizzle-orm": "0.45.4",
+    "express": "5.3.0",
+    "mysql2": "3.24.6"
+  },
+  "devDependencies": {
+    "@types/express": "5.0.6"
+  }
+}

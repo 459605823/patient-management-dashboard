@@ -1,0 +1,43 @@
+{
+  "name": "patient-management-dashboard",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "^22.13.0 || ^24.0.0",
+    "npm": ">=10"
+  },
+  "workspaces": [
+    "packages/shared",
+    "packages/backend",
+    "packages/frontend"
+  ],
+  "scripts": {
+    "format": "prettier --write \"**/*.{js,ts,tsx,json,css,html,yaml,yml}\"",
+    "format:check": "prettier --check \"**/*.{js,ts,tsx,json,css,html,yaml,yml}\"",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint . --fix --max-warnings 0",
+    "build:shared": "npm run build --workspace @pmd/shared",
+    "build": "npm run build:shared && npm run build --workspace @pmd/backend && npm run build --workspace @pmd/frontend",
+    "typecheck": "npm run build:shared && npm run typecheck --workspaces",
+    "dev:db": "docker compose up -d --wait mysql",
+    "db:init": "npm run build:shared && node --env-file-if-exists=.env --import tsx scripts/init-db.ts",
+    "seed": "npm run build:shared && node --env-file-if-exists=.env --import tsx scripts/seed.ts",
+    "dev:shared": "npm run dev --workspace @pmd/shared",
+    "dev:api": "npm run build:shared && npm run dev --workspace @pmd/api",
+    "dev:web": "npm run build:shared && npm run dev --workspace @pmd/web"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/node": "22.20.5",
+    "eslint": "10.14.0",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "globals": "17.14.0",
+    "prettier": "3.10.0",
+    "tsx": "4.23.15",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.72.2",
+    "vitest": "5.1.0"
+  }
+}

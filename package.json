@@ -14,8 +14,8 @@
   ],
   "scripts": {
     "dev:shared": "npm run dev --workspace @pmd/shared",
-    "dev:api": "npm run build:shared && npm run dev --workspace @pmd/api",
-    "dev:web": "npm run build:shared && npm run dev --workspace @pmd/web",
+    "dev:backend": "npm run build:shared && npm run dev --workspace @pmd/backend",
+    "dev:frontend": "npm run build:shared && npm run dev --workspace @pmd/frontend",
     "format": "prettier --write \"**/*.{js,ts,tsx,json,css,html,yaml,yml}\"",
     "format:check": "prettier --check \"**/*.{js,ts,tsx,json,css,html,yaml,yml}\"",
     "lint": "eslint . --max-warnings 0",

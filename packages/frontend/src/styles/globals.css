@@ -1,0 +1,61 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --color-canvas: #f8fafc;
+  --color-ink: #0f172a;
+  --color-muted: #475569;
+  --color-border: #cbd5e1;
+  --color-primary: #0f766e;
+  --color-primary-hover: #115e59;
+  --color-focus: #2563eb;
+  --color-slate-100: #f1f5f9;
+  --color-slate-200: #e2e8f0;
+  --color-slate-300: #cbd5e1;
+  --color-slate-900: #0f172a;
+  --animate-sheet-fade: sheet-fade 0.18s ease-out;
+  --animate-sheet-slide: sheet-slide 0.2s ease-out;
+
+  @keyframes sheet-fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes sheet-slide {
+    from {
+      transform: translateX(30px);
+      opacity: 0.6;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+}
+
+@layer base {
+  :root {
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply min-w-80 bg-canvas font-sans text-ink;
+  }
+  button {
+    @apply cursor-pointer;
+  }
+  button,
+  input,
+  select,
+  [tabindex] {
+    outline-offset: 3px;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+  }
+}

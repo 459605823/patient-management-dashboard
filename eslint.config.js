@@ -29,7 +29,7 @@ export default defineConfig([
       '*.{js,ts}',
       'apps/api/**/*.ts',
       'apps/web/vite.config.ts',
-      'scripts/**/*.ts',
+      'packages/backend/scripts/**/*.ts',
       'tests/**/*.ts',
     ],
     languageOptions: { globals: globals.node },

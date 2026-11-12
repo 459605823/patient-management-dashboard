@@ -1,7 +1,7 @@
 import { createPatientSchema, type PatientStatus } from '@pmd/shared';
-import { createDatabase } from '../packages/backend/src/database.js';
-import { PatientService } from '../packages/backend/src/modules/patients/patient.service.js';
-import { PatientRepository } from '../packages/backend/src/modules/patients/patient.repository.js';
+import { createDatabase } from '../src/database.js';
+import { PatientService } from '../src/modules/patients/patient.service.js';
+import { PatientRepository } from '../src/modules/patients/patient.repository.js';
 
 const names = [
   ['Maya', 'Adams'],

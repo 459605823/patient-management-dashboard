@@ -1,10 +1,10 @@
 import { readFile } from 'node:fs/promises';
-import { createDatabase } from '../packages/backend/src/database.js';
+import { createDatabase } from '../src/database.js';
 
 const database = createDatabase();
 try {
   await database.$client.query(
-    await readFile(new URL('../db/schema.sql', import.meta.url), 'utf8'),
+    await readFile(new URL('../sql/schema.sql', import.meta.url), 'utf8'),
   );
   console.log('Patient table initialized. Existing data preserved.');
 } catch (error) {

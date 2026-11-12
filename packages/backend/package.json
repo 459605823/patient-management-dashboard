@@ -6,7 +6,9 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "dev": "node --watch --env-file-if-exists=../../.env --import tsx src/server.ts"
+    "dev": "node --watch --env-file-if-exists=../../.env --import tsx src/server.ts",
+    "db:init": "node --env-file-if-exists=../../.env --import tsx scripts/init-db.ts",
+    "seed": "node --env-file-if-exists=../../.env --import tsx scripts/seed.ts"
   },
   "dependencies": {
     "@pmd/shared": "0.1.0",

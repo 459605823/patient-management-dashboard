@@ -3,13 +3,6 @@
  * Keep these exports independent of browser, server, and database APIs.
  */
 
-/** Response body returned by the API health endpoint. */
-export type HealthResponse = {
-  data: {
-    status: 'ok';
-  };
-};
-
 export {
   createPatientSchema,
   patientAddressSchema,

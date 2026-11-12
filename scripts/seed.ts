@@ -1,6 +1,7 @@
 import { createPatientSchema, type PatientStatus } from '@pmd/shared';
 import { createDatabase } from '../packages/backend/src/database.js';
-import { PatientService } from '../packages/backend/src/module/patients/patient.service.js';
+import { PatientService } from '../packages/backend/src/modules/patients/patient.service.js';
+import { PatientRepository } from '../packages/backend/src/modules/patients/patient.repository.js';
 
 const names = [
   ['Maya', 'Adams'],
@@ -31,7 +32,8 @@ const names = [
 ];
 const statuses: PatientStatus[] = ['Inquiry', 'Onboarding', 'Active', 'Churned'];
 const database = createDatabase();
-const service = new PatientService(database);
+const repository = new PatientRepository(database);
+const service = new PatientService(repository);
 try {
   let inserted = 0;
   for (const [index, [firstName, lastName]] of names.entries()) {

@@ -21,4 +21,4 @@ export function createDatabase(env = process.env) {
   });
 }
 
-export type TDatabase = ReturnType<typeof createDatabase>;
+export type Database = ReturnType<typeof createDatabase>;

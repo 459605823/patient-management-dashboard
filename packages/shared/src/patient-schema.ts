@@ -72,7 +72,7 @@ export type CreatePatientData = z.output<typeof createPatientSchema>;
 export type PatientAddress = z.output<typeof patientAddressSchema>;
 export type PatientStatus = z.output<typeof patientStatusSchema>;
 /** A saved patient, including server-managed identity and timestamps. */
-export type Patient = CreatePatientData & {
+export type PatientSchema = CreatePatientData & {
   id: string;
   createdAt: string;
   updatedAt: string;

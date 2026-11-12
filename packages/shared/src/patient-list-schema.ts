@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { patientStatusSchema } from './patient-schema.js';
-import type { Patient } from './patient-schema.js';
+import type { PatientSchema } from './patient-schema.js';
 
 // Trim surrounding whitespace and count Unicode code points, preserving the search text otherwise.
 const searchSchema = z
@@ -29,6 +29,6 @@ export const patientListQuerySchema = z.strictObject({
 export type PatientListQuery = z.output<typeof patientListQuerySchema>;
 /** List response contract with a fixed page size of 20; this type performs no runtime validation. */
 export type PatientListResponse = {
-  data: Patient[];
+  data: PatientSchema[];
   pagination: { page: number; pageSize: 20; total: number };
 };

@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import type { CreatePatientData, Patient, PatientListQuery } from '@pmd/shared';
+import type { CreatePatientData, PatientSchema, PatientListQuery } from '@pmd/shared';
 import type {PatientRepository} from './patient.repository.js';
 
 export class PatientService {
@@ -13,7 +13,7 @@ export class PatientService {
     return this.repository.getPatient(id);
   }
 
-  async create(data: CreatePatientData, id: string = randomUUID()): Promise<Patient> {
+  async create(data: CreatePatientData, id: string = randomUUID()): Promise<PatientSchema> {
     await this.repository.insertPatient(id, data);
     const patient = await this.readAfterWrite(id);
     if (!patient)
@@ -23,7 +23,7 @@ export class PatientService {
     return patient;
   }
 
-  async update(id: string, data: CreatePatientData): Promise<Patient | null> {
+  async update(id: string, data: CreatePatientData): Promise<PatientSchema | null> {
     await this.repository.updatePatient(id, data);
     return this.readAfterWrite(id);
   }

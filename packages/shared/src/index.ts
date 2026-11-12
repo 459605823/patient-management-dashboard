@@ -11,7 +11,7 @@ export {
 export type {
   CreatePatientInput,
   CreatePatientData,
-  Patient,
+  PatientSchema,
   PatientAddress,
   PatientStatus,
 } from './patient-schema.js';

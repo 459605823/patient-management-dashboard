@@ -1,6 +1,6 @@
 import type {
   CreatePatientData,
-  Patient,
+  PatientSchema,
   PatientListQuery,
   PatientListResponse,
 } from '@pmd/shared';
@@ -11,7 +11,7 @@ import { patients } from './entity/index.js';
 export class PatientRepository {
   constructor(private readonly database: Database) {}
 
-  static toPatient(row: typeof patients.$inferSelect): Patient {
+  static toPatient(row: typeof patients.$inferSelect): PatientSchema {
     return {
       id: row.id,
       firstName: row.firstName,
@@ -32,7 +32,7 @@ export class PatientRepository {
     };
   }
 
-  async getPatient(id: string): Promise<Patient | null> {
+  async getPatient(id: string): Promise<PatientSchema | null> {
     const [row] = await this.database.select().from(patients).where(eq(patients.id, id)).limit(1);
     return row ? PatientRepository.toPatient(row) : null;
   }

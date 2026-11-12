@@ -1,4 +1,9 @@
-import { type PatientStatus, type PatientSchema, patientListQuerySchema, type PatientListQuery } from '@pmd/shared';
+import {
+  type PatientStatus,
+  type PatientSchema,
+  patientListQuerySchema,
+  type PatientListQuery,
+} from '@pmd/shared';
 
 export type PatientNavigationState = {
   returnTo?: string;

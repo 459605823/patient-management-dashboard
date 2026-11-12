@@ -3,7 +3,13 @@ import { Link } from 'react-router-dom';
 import { patientName } from '@/utils/patient';
 import { StatusBadge } from './badge';
 
-export function PatientTable({ patients, returnTo }: { patients: PatientSchema[]; returnTo: string }) {
+export function PatientTable({
+  patients,
+  returnTo,
+}: {
+  patients: PatientSchema[];
+  returnTo: string;
+}) {
   return (
     <div
       className="h-full overflow-auto [scrollbar-color:var(--color-border)_var(--color-slate-100)] scrollbar-thin"

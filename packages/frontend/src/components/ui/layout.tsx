@@ -1,5 +1,5 @@
 import type { ComponentProps } from 'react';
-import workspacePlus from '../assets/workspace-plus.svg';
+import workspacePlus from '@/assets/workspace-plus.svg';
 
 export function DashboardLayout({ children, className = '', ...props }: ComponentProps<'main'>) {
   return (

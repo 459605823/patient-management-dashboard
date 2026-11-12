@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import type { CreatePatientData, PatientSchema, PatientListQuery } from '@pmd/shared';
-import type {PatientRepository} from './patient.repository.js';
+import type { PatientRepository } from './patient.repository.js';
 
 export class PatientService {
   constructor(private readonly repository: PatientRepository) {}

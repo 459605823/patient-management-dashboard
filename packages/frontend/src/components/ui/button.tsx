@@ -14,7 +14,7 @@ const sizes = {
     'px-0 py-2 text-xs leading-4.5 font-medium whitespace-normal md:px-2 md:py-2.25 md:text-sm md:leading-6 md:whitespace-nowrap',
 };
 
-export function Button({
+export function PmdButton({
   className = '',
   variant = 'primary',
   size = 'default',

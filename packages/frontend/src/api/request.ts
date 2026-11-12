@@ -29,10 +29,6 @@ export async function request<T>(path: string, options?: RequestInit): Promise<T
   try {
     return (await response.json()) as T;
   } catch {
-    throw new ApiError(
-      response.status,
-      'INVALID_RESPONSE',
-      'The response could not be read.',
-    );
+    throw new ApiError(response.status, 'INVALID_RESPONSE', 'The response could not be read.');
   }
 }

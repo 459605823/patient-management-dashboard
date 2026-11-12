@@ -4,7 +4,7 @@ import type {
   PatientListQuery,
   PatientListResponse,
 } from '@pmd/shared';
-import {request} from './request'
+import { request } from './request';
 
 export function queryList(query: PatientListQuery, signal?: AbortSignal) {
   const params = new URLSearchParams({

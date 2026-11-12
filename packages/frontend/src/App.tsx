@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import './styles/globals.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { PatientList } from './pages/PatientList';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -9,9 +10,7 @@ const queryClient = new QueryClient({
   },
 });
 
-export const patientRoutes = [
-  { path: '/', element: <div>hello world</div> },
-];
+export const patientRoutes = [{ path: '/', element: <PatientList /> }];
 
 const router = createBrowserRouter(patientRoutes);
 

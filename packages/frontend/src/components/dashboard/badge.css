@@ -1,0 +1,20 @@
+@layer components {
+  .patient-status-badge {
+    display: inline-flex;
+    min-height: 1.75rem;
+    align-items: center;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.375rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.25rem;
+    white-space: nowrap;
+  }
+
+  @media (min-width: 48rem) {
+    .patient-status-badge {
+      padding-inline: 0.75rem;
+      font-size: 13px;
+    }
+  }
+}

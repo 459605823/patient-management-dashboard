@@ -1,0 +1,21 @@
+@layer components {
+  .patient-panel-header {
+    display: flex;
+    min-height: 4.5rem;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid var(--color-border);
+    border-color: var(--color-border);
+  }
+
+  @media (min-width: 48rem) {
+    .patient-panel-header {
+      min-height: 5rem;
+      padding-right: 1.5rem;
+      padding-left: 2rem;
+    }
+  }
+}

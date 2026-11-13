@@ -1,0 +1,100 @@
+@layer components {
+  .patient-list-search {
+    width: 100%;
+    height: 2.75rem;
+    padding-inline: 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    background: white;
+    color: var(--color-ink);
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  .patient-list-search::placeholder {
+    color: var(--color-muted);
+  }
+
+  .patient-list-search[aria-invalid='true'] {
+    border-color: var(--color-red-700);
+  }
+
+  .patient-list-spinner {
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 2px solid var(--color-slate-200);
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: var(--animate-spin);
+    animation-duration: 0.8s;
+  }
+
+  .patient-list-footer {
+    display: flex;
+    height: 4.125rem;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    overflow: hidden;
+    padding: 1rem 0.5rem;
+    border-top: 1px solid var(--color-border);
+    color: var(--color-muted);
+    font-size: 11px;
+  }
+
+  .patient-list-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.25rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .patient-list-heading {
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: -0.65px;
+  }
+
+  .patient-list-directory-heading {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.25rem;
+    margin-bottom: 1rem;
+  }
+
+  @media (min-width: 48rem) {
+    .patient-list-footer {
+      padding-inline: 1.5rem;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+    }
+
+    .patient-list-header {
+      flex-wrap: nowrap;
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .patient-list-heading {
+      font-size: 32px;
+    }
+
+    .patient-list-directory-heading {
+      flex-direction: row;
+      align-items: center;
+      gap: 0.75rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .patient-list-spinner {
+      animation: none;
+    }
+  }
+}

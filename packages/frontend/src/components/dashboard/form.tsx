@@ -11,6 +11,7 @@ import { useEffect, useId, useRef, useState } from 'react';
 import { useForm, type FieldPath } from 'react-hook-form';
 import { PmdButton } from '@/components/ui/button';
 import { ApiError } from '@/api/request';
+import './form.css';
 
 type PatientFormInput = Omit<CreatePatientInput, 'address'> & {
   address: Omit<CreatePatientInput['address'], 'state'> & {
@@ -28,8 +29,7 @@ type Props = {
   onDirtyChange?: (dirty: boolean) => void;
 };
 
-const controlClassName =
-  'h-11 w-full min-w-0 rounded-lg border border-border bg-white px-3 py-2.25 text-base leading-6 text-ink aria-invalid:border-red-700 disabled:bg-slate-100 disabled:text-muted';
+const controlClassName = 'patient-form-control';
 const labelClassName = 'text-sm leading-5.25 font-medium';
 const sectionClassName = 'mb-8 flex flex-col gap-6 last:mb-0';
 const sectionTitleClassName =
@@ -161,24 +161,19 @@ export function PatientForm({
       noValidate
       aria-busy={saving}
     >
-      <div
-        className={`${layout === 'drawer' ? 'min-h-0 flex-1 overflow-x-hidden overflow-y-auto [scrollbar-color:var(--color-border)_var(--color-slate-100)] scrollbar-thin' : ''} px-4 pt-6 pb-8 md:px-8 md:pt-7 md:pb-10`}
-      >
+      <div className={`patient-form-body patient-form-body--${layout}`}>
         {saveError && (
-          <div
-            className="mb-6 flex flex-wrap items-center gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3.5 text-sm leading-5.5 text-red-800"
-            role="alert"
-          >
+          <div className="patient-form-error" role="alert">
             {saveError}
           </div>
         )}
         <fieldset
           disabled={saving}
-          className={`m-0 min-w-0 border-0 p-0 ${layout === 'page' ? 'grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-x-10' : ''}`}
+          className={`patient-form-fields patient-form-fields--${layout}`}
         >
           <legend className="sr-only">Patient information</legend>
           <section
-            className={layout === 'page' ? 'flex min-w-0 flex-col gap-6' : sectionClassName}
+            className={layout === 'page' ? 'patient-form-section' : sectionClassName}
             aria-labelledby={`${id}-personal`}
           >
             <h3 id={`${id}-personal`} className={sectionTitleClassName}>
@@ -225,7 +220,7 @@ export function PatientForm({
           </section>
           <section
             className={
-              layout === 'page' ? 'flex min-w-0 flex-col gap-6 md:col-start-1' : sectionClassName
+              layout === 'page' ? 'patient-form-section patient-form-status' : sectionClassName
             }
             aria-labelledby={`${id}-status`}
           >
@@ -250,9 +245,7 @@ export function PatientForm({
           </section>
           <section
             className={
-              layout === 'page'
-                ? 'flex min-w-0 flex-col gap-6 md:col-start-2 md:row-start-1 md:row-span-2'
-                : sectionClassName
+              layout === 'page' ? 'patient-form-section patient-form-address' : sectionClassName
             }
             aria-labelledby={`${id}-address`}
           >
@@ -319,7 +312,7 @@ export function PatientForm({
           </section>
         </fieldset>
       </div>
-      <footer className="flex min-h-19 shrink-0 items-center justify-end gap-3 border-t border-border bg-white p-4 md:min-h-21 md:px-8 md:py-5">
+      <footer className="patient-form-footer">
         <PmdButton variant="secondary" disabled={saving} onClick={onCancel}>
           Cancel
         </PmdButton>

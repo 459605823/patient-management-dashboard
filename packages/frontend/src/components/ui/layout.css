@@ -1,0 +1,53 @@
+@layer components {
+  .dashboard-header-content,
+  .dashboard-main {
+    width: calc(100% - 2rem);
+    max-width: 80rem;
+    margin-inline: auto;
+  }
+
+  .dashboard-header-content {
+    display: flex;
+    min-height: 3.5rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 0.75rem;
+  }
+
+  .dashboard-main {
+    margin-block: 1.75rem;
+  }
+
+  .dashboard-logo {
+    display: grid;
+    width: 1.5rem;
+    height: 1.5rem;
+    flex-shrink: 0;
+    place-items: center;
+    border-radius: 0.375rem;
+    background: var(--color-primary);
+  }
+
+  @media (min-width: 48rem) {
+    .dashboard-header-content,
+    .dashboard-main {
+      width: calc(100% - 4rem);
+    }
+
+    .dashboard-header-content {
+      min-height: 4rem;
+      padding-block: 0;
+    }
+
+    .dashboard-main {
+      margin-block: 3rem;
+    }
+
+    .dashboard-logo {
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: 7px;
+    }
+  }
+}

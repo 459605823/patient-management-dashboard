@@ -17,6 +17,7 @@ import { queryOne, queryList, update } from '@/api/patient';
 import { patientName, readListQuery, type PatientNavigationState } from '@/utils/patient';
 import { DiscardChangesDialog } from '@/components/dashboard/DiscardChangesDialog';
 import { DashboardLayout } from '@/components/ui/layout';
+import './PatientDetail.css';
 
 export function PatientDetails({ editing = false }: { editing?: boolean }) {
   const { id = '' } = useParams();
@@ -122,7 +123,7 @@ export function PatientDetails({ editing = false }: { editing?: boolean }) {
           />
         ) : editing ? (
           <section
-            className="mx-auto min-w-0 max-w-4xl overflow-hidden rounded-xl border border-border bg-white"
+            className="min-w-0 overflow-hidden rounded-xl border border-border bg-white"
             aria-label="Edit patient information"
           >
             <PatientForm
@@ -180,35 +181,24 @@ function PatientDetailHeader({
             Back to patients
           </span>
         ) : (
-          <Link
-            to={returnTo}
-            className="inline-flex min-h-11 items-center gap-1 text-sm font-medium text-primary hover:underline"
-          >
+          <Link to={returnTo} className="patient-detail-back">
             <span aria-hidden="true">←</span>Back to patients
           </Link>
         )}
       </nav>
-      <div className="mb-6 flex flex-col items-stretch gap-5 sm:mb-7 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+      <div className="patient-detail-header">
         <div className="min-w-0 sm:flex-1">
-          <h1
-            ref={heading}
-            tabIndex={-1}
-            className="text-[26px] leading-tight font-semibold tracking-[-.65px] wrap-anywhere outline-none sm:text-[28px] md:text-[32px]"
-          >
+          <h1 ref={heading} tabIndex={-1} className="patient-detail-heading">
             {editing ? 'Edit patient' : patient ? patientName(patient) : 'Patient details'}
           </h1>
-          {patient && (
+          {patient && !editing && (
             <div className="mt-2 sm:mt-3">
               <StatusBadge status={patient.status} />
             </div>
           )}
         </div>
         {!editing && showEdit && patient && (
-          <Link
-            to={`/patients/${id}/edit`}
-            state={{ returnTo }}
-            className="inline-flex min-h-11 w-full shrink-0 items-center justify-center rounded-lg bg-primary px-4 py-2 font-medium text-white transition-colors hover:bg-primary-hover motion-reduce:transition-none sm:w-auto"
-          >
+          <Link to={`/patients/${id}/edit`} state={{ returnTo }} className="patient-detail-edit">
             Edit patient
           </Link>
         )}
@@ -235,10 +225,7 @@ function PatientDetailNotices({
   return (
     <>
       {notice && noticeVisible && (
-        <div
-          role="status"
-          className="mb-6 flex items-center justify-between gap-3 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-2 text-sm text-emerald-800"
-        >
+        <div role="status" className="patient-detail-notice">
           <span>{notice}</span>
           <PmdButton
             variant="ghost"
@@ -251,10 +238,7 @@ function PatientDetailNotices({
         </div>
       )}
       {listError && (
-        <div
-          role="alert"
-          className="mb-6 flex flex-col items-stretch gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3.5 text-sm text-red-800 sm:flex-row sm:flex-wrap sm:items-center"
-        >
+        <div role="alert" className="patient-detail-list-error">
           <span>Patient saved, but the list couldn’t refresh.</span>
           <PmdButton variant="secondary" disabled={listFetching} onClick={onRetryList}>
             Retry list
@@ -295,22 +279,23 @@ function PatientDetailLoadError({
 
 function PatientInfomation({ patient }: { patient: PatientSchema }) {
   return (
-    <article className="min-w-0 rounded-xl border border-border bg-white">
-      <section aria-labelledby="personal-details" className="p-4 sm:p-6">
-        <h2
-          id="personal-details"
-          className="text-xs font-semibold tracking-wide text-muted uppercase"
-        >
+    <div className="patient-information-grid">
+      <section aria-labelledby="personal-details" className="patient-information-card">
+        <h2 id="personal-details" className="patient-information-title">
           Personal information
         </h2>
-        <dl className="mt-5 space-y-5 text-base leading-6 sm:space-y-4 [&>div]:grid [&>div]:min-w-0 [&>div]:grid-cols-1 [&>div]:gap-1 sm:[&>div]:grid-cols-[140px_minmax(0,1fr)] sm:[&>div]:gap-4 [&_dd]:min-w-0 [&_dd]:font-medium [&_dd]:wrap-anywhere [&_dt]:text-sm [&_dt]:text-muted">
+        <dl className="patient-information-fields">
           <div>
             <dt>First name</dt>
             <dd>{patient.firstName}</dd>
           </div>
           <div>
             <dt>Middle name</dt>
-            <dd>{patient.middleName ?? <span className="text-muted">Not provided</span>}</dd>
+            <dd>
+              {patient.middleName ?? (
+                <span className="patient-information-empty">Not provided</span>
+              )}
+            </dd>
           </div>
           <div>
             <dt>Last name</dt>
@@ -325,7 +310,7 @@ function PatientInfomation({ patient }: { patient: PatientSchema }) {
           <div>
             <dt>Address</dt>
             <dd>
-              <address className="space-y-1 not-italic">
+              <address className="patient-information-address">
                 <p>{patient.address.line1}</p>
                 {patient.address.line2 && <p>{patient.address.line2}</p>}
                 <p>
@@ -337,6 +322,6 @@ function PatientInfomation({ patient }: { patient: PatientSchema }) {
           </div>
         </dl>
       </section>
-    </article>
+    </div>
   );
 }

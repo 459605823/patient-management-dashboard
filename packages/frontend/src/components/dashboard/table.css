@@ -1,0 +1,86 @@
+@layer components {
+  .patient-table-scroll {
+    height: 100%;
+    overflow: auto;
+    scrollbar-color: var(--color-border) var(--color-slate-100);
+    scrollbar-width: thin;
+  }
+
+  .patient-table-head th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    height: 3rem;
+    padding: 0.75rem 0.5rem;
+    background: var(--color-slate-100);
+    color: var(--color-muted);
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .patient-table-body td {
+    height: 4rem;
+    padding: 0.75rem 0.5rem;
+    border-bottom: 1px solid var(--color-slate-200);
+    border-color: var(--color-slate-200);
+    color: var(--color-muted);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+
+  .patient-table-body tr:last-child td {
+    border-bottom-width: 0;
+  }
+
+  .patient-table-name {
+    border-radius: 0.125rem;
+    color: var(--color-primary);
+    font-weight: 500;
+    line-height: 1.5rem;
+    text-align: left;
+    overflow-wrap: anywhere;
+  }
+
+  .patient-table-details {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 0;
+    border-radius: 0.5rem;
+    color: var(--color-primary);
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1rem;
+  }
+
+  @media (hover: hover) {
+    .patient-table-name:hover {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .patient-table-details:hover {
+      text-decoration: underline;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .patient-table-head th,
+    .patient-table-body td {
+      padding: 0.5rem 1rem;
+    }
+
+    .patient-table-body td {
+      font-size: 1rem;
+      line-height: 1.5rem;
+    }
+
+    .patient-table-details {
+      padding-inline: 0.5rem;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+    }
+  }
+}

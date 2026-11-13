@@ -1,0 +1,95 @@
+@layer components {
+  .pmd-button {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 1px solid transparent;
+    border-radius: 0.5rem;
+    transition-property:
+      color, background-color, border-color, outline-color, text-decoration-color, fill, stroke;
+    transition-duration: 150ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .pmd-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  .pmd-button--primary {
+    background: var(--color-primary);
+    color: white;
+  }
+
+  .pmd-button--destructive {
+    background: var(--color-red-700);
+    color: white;
+  }
+
+  .pmd-button--secondary {
+    border-color: var(--color-border);
+    background: white;
+    color: var(--color-ink);
+  }
+
+  .pmd-button--ghost {
+    background: transparent;
+  }
+
+  @media (hover: hover) {
+    .pmd-button--primary:enabled:hover {
+      background: var(--color-primary-hover);
+    }
+
+    .pmd-button--destructive:enabled:hover {
+      background: var(--color-red-800);
+    }
+
+    .pmd-button--secondary:enabled:hover,
+    .pmd-button--ghost:enabled:hover {
+      background: var(--color-slate-100);
+    }
+  }
+
+  .pmd-button--default {
+    padding: 0.5625rem 1rem;
+    font-weight: 500;
+    line-height: 1.5rem;
+    white-space: nowrap;
+  }
+
+  .pmd-button--icon {
+    width: 2.75rem;
+    height: 2.75rem;
+    flex-shrink: 0;
+    padding: 0;
+    font-size: 27px;
+    font-weight: 400;
+    white-space: nowrap;
+  }
+
+  .pmd-button--table {
+    padding: 0.5rem 0;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.125rem;
+    white-space: normal;
+  }
+
+  @media (min-width: 48rem) {
+    .pmd-button--table {
+      padding: 0.5625rem 0.5rem;
+      font-size: 0.875rem;
+      line-height: 1.5rem;
+      white-space: nowrap;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pmd-button {
+      transition-property: none;
+    }
+  }
+}

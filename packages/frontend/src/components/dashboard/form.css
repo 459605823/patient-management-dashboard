@@ -1,0 +1,108 @@
+@layer components {
+  .patient-form-control {
+    width: 100%;
+    min-width: 0;
+    height: 2.75rem;
+    padding: 0.5625rem 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    background: white;
+    color: var(--color-ink);
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  .patient-form-control[aria-invalid='true'] {
+    border-color: var(--color-red-700);
+  }
+
+  .patient-form-control:disabled {
+    background: var(--color-slate-100);
+    color: var(--color-muted);
+  }
+
+  .patient-form-body {
+    padding: 1.5rem 1rem 2rem;
+  }
+
+  .patient-form-body--drawer {
+    min-height: 0;
+    flex: 1;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-color: var(--color-border) var(--color-slate-100);
+    scrollbar-width: thin;
+  }
+
+  .patient-form-error {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding: 0.875rem 1rem;
+    border: 1px solid var(--color-red-200);
+    border-radius: 0.5rem;
+    background: var(--color-red-50);
+    color: var(--color-red-800);
+    font-size: 0.875rem;
+    line-height: 1.375rem;
+  }
+
+  .patient-form-fields {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .patient-form-fields--page {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 2rem;
+  }
+
+  .patient-form-section {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .patient-form-footer {
+    display: flex;
+    min-height: 4.75rem;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    padding: 1rem;
+    border-top: 1px solid var(--color-border);
+    background: white;
+  }
+
+  @media (min-width: 48rem) {
+    .patient-form-body {
+      padding: 1.75rem 2rem 2.5rem;
+    }
+
+    .patient-form-fields--page {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 2.5rem;
+    }
+
+    .patient-form-status {
+      grid-column-start: 1;
+    }
+
+    .patient-form-address {
+      grid-column-start: 2;
+      grid-row: 1 / span 2;
+    }
+
+    .patient-form-footer {
+      min-height: 5.25rem;
+      padding: 1.25rem 2rem;
+    }
+  }
+}

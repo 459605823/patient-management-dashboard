@@ -4,11 +4,12 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { DashboardLayout } from '@/components/ui/layout';
 import { PmdButton } from '@/components/ui/button';
 import { PatientTable } from '@/components/dashboard/table';
-import {PatientPanel, type PatientPanelState} from '@/components/dashboard/panel'
+import { PatientPanel, type PatientPanelState } from '@/components/dashboard/panel';
 import { patientStatusSchema, type CreatePatientData, type PatientListQuery } from '@pmd/shared';
 import { queryList, create } from '@/api/patient';
 import { readListQuery, listUrl } from '@/utils/patient';
 import plus from '@/assets/plus.svg';
+import './PatientList.css';
 
 type PatientFiltersProps = {
   search: string;
@@ -42,7 +43,7 @@ export function PatientListFilter({
             value={search}
             onChange={(event) => onSearchChange(event.target.value)}
             placeholder="Search patients by name…"
-            className="h-11 w-full rounded-lg border border-border bg-white px-3 text-base text-ink placeholder:text-muted aria-invalid:border-red-700"
+            className="patient-list-search"
           />
         </div>
         {search && (
@@ -69,10 +70,7 @@ export function PatientListFilter({
 export function PatientListLoading() {
   return (
     <div className="flex h-full flex-col items-center justify-center gap-3 p-8 text-center">
-      <div
-        className="size-6 animate-spin rounded-full border-2 border-slate-200 border-t-primary [animation-duration:.8s] motion-reduce:animate-none"
-        aria-hidden="true"
-      />
+      <div className="patient-list-spinner" aria-hidden="true" />
       <p className="text-muted" role="status">
         Loading patients…
       </p>
@@ -161,7 +159,7 @@ export function PatientListFooter({
   setQuery: (next: PatientListQuery | ((current: PatientListQuery) => PatientListQuery)) => void;
 }) {
   return (
-    <footer className="flex h-16.5 shrink-0 items-center justify-between gap-2 overflow-hidden border-t border-border px-2 py-4 text-[11px] text-muted md:px-6 md:text-sm">
+    <footer className="patient-list-footer">
       <span className="shrink-0">
         {showPagination && (
           <>
@@ -262,13 +260,9 @@ export function PatientList() {
   return (
     <>
       <DashboardLayout>
-        <div className="mb-7 flex flex-wrap items-start justify-between gap-5 md:mb-10 md:flex-nowrap md:gap-6">
+        <div className="patient-list-header">
           <div>
-            <h1
-              ref={heading}
-              tabIndex={-1}
-              className="text-[28px] leading-normal font-semibold tracking-[-.65px] md:text-[32px]"
-            >
+            <h1 ref={heading} tabIndex={-1} className="patient-list-heading">
               Patients
             </h1>
             <p className="mt-1 text-base leading-6 text-muted">Manage patient information.</p>
@@ -284,7 +278,7 @@ export function PatientList() {
           onSearchChange={changeSearch}
           onApply={applyFilters}
         />
-        <div className="mb-4 flex flex-col items-start justify-between gap-1 md:flex-row md:items-center md:gap-3">
+        <div className="patient-list-directory-heading">
           <h2 className="text-base font-semibold">Patient directory</h2>
           <p className="text-[13px] text-muted">Sorted by last name</p>
         </div>

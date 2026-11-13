@@ -1,6 +1,7 @@
 import * as Dialog from '@radix-ui/react-dialog';
 import { useRef } from 'react';
 import { PmdButton } from '@/components/ui/button';
+import './DiscardChangesDialog.css';
 
 export function DiscardChangesDialog({
   open,
@@ -24,7 +25,7 @@ export function DiscardChangesDialog({
         <Dialog.Overlay className="fixed inset-0 z-30 bg-slate-900/40" />
         <Dialog.Content
           role="alertdialog"
-          className="fixed top-1/2 left-1/2 z-31 w-[calc(100%-2rem)] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-xl border border-border bg-white p-6 shadow-xl outline-none"
+          className="discard-changes-dialog"
           onPointerDownOutside={(event) => event.preventDefault()}
           onOpenAutoFocus={(event) => {
             event.preventDefault();

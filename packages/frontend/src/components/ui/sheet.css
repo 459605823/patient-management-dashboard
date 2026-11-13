@@ -1,0 +1,32 @@
+@layer components {
+  .pmd-sheet-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    background: color-mix(in oklab, var(--color-slate-900) 35%, transparent);
+    animation: var(--animate-sheet-fade);
+  }
+
+  .pmd-sheet-content {
+    position: fixed;
+    inset-block: 0;
+    right: 0;
+    z-index: 21;
+    display: flex;
+    width: 100%;
+    max-width: 35rem;
+    height: 100dvh;
+    flex-direction: column;
+    background: white;
+    box-shadow: -8px 0 32px rgb(15 23 41 / 12%);
+    outline-style: none;
+    animation: var(--animate-sheet-slide);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pmd-sheet-overlay,
+    .pmd-sheet-content {
+      animation: none;
+    }
+  }
+}

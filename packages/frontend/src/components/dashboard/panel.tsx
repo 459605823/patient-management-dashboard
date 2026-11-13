@@ -4,6 +4,7 @@ import { PmdButton } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from '@/components/ui/sheet';
 import { PatientForm } from './form';
 import { DiscardChangesDialog } from './DiscardChangesDialog';
+import './panel.css';
 
 export type PatientPanelState = { mode: 'closed' } | { mode: 'create' };
 
@@ -60,7 +61,7 @@ export function PatientPanel({
           }
         }}
       >
-        <header className="flex min-h-18 shrink-0 items-center justify-between gap-4 border-b border-border p-4 md:min-h-20 md:pr-6 md:pl-8">
+        <header className="patient-panel-header">
           <SheetTitle className="text-xl leading-7.5 font-semibold">Add patient</SheetTitle>
           <PmdButton
             variant="ghost"

@@ -18,7 +18,7 @@ import { patientName, readListQuery, type PatientNavigationState } from '@/utils
 import { DiscardChangesDialog } from '@/components/dashboard/DiscardChangesDialog';
 import { DashboardLayout } from '@/components/ui/layout';
 
-export function PatientPage({ editing = false }: { editing?: boolean }) {
+export function PatientDetails({ editing = false }: { editing?: boolean }) {
   const { id = '' } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
@@ -26,6 +26,7 @@ export function PatientPage({ editing = false }: { editing?: boolean }) {
   const returnTo = state?.returnTo ?? '/';
   const notice = editing ? '' : (state?.notice ?? '');
   const queryClient = useQueryClient();
+  const [noticeVisible, setNoticeVisible] = useState(Boolean(notice));
   const heading = useRef<HTMLHeadingElement>(null);
   const dirty = useRef(false);
   const busy = useRef(false);
@@ -52,6 +53,15 @@ export function PatientPage({ editing = false }: { editing?: boolean }) {
   useEffect(() => {
     if (blocker.state === 'blocked' && saving) blocker.reset();
   }, [blocker, saving]);
+  const dismissNotice = useCallback(() => {
+    setNoticeVisible(false);
+    void navigate(location.pathname, { replace: true, state: { returnTo } });
+  }, [location.pathname, navigate, returnTo]);
+  useEffect(() => {
+    if (!notice) return;
+    const timeout = window.setTimeout(dismissNotice, 3000);
+    return () => window.clearTimeout(timeout);
+  }, [dismissNotice, notice]);
   const detail = useQuery({
     queryKey: ['patients', 'detail', id],
     queryFn: ({ signal }) => queryOne(id, signal),
@@ -83,97 +93,33 @@ export function PatientPage({ editing = false }: { editing?: boolean }) {
   return (
     <>
       <DashboardLayout className="min-h-[70vh]" aria-busy={detail.isFetching}>
-        <nav aria-label="Patient navigation" className="mb-3 sm:mb-6">
-          {saving ? (
-            <span className="inline-flex min-h-11 items-center text-sm text-muted">
-              Back to patients
-            </span>
-          ) : (
-            <Link
-              to={returnTo}
-              className="inline-flex min-h-11 items-center gap-1 text-sm font-medium text-primary hover:underline"
-            >
-              <span aria-hidden="true">←</span>Back to patients
-            </Link>
-          )}
-        </nav>
-        <div className="mb-6 flex flex-col items-stretch gap-5 sm:mb-7 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
-          <div className="min-w-0 sm:flex-1">
-            <h1
-              ref={heading}
-              tabIndex={-1}
-              className="text-[26px] leading-tight font-semibold tracking-[-.65px] wrap-anywhere outline-none sm:text-[28px] md:text-[32px]"
-            >
-              {editing
-                ? 'Edit patient'
-                : detail.data
-                  ? patientName(detail.data)
-                  : 'Patient details'}
-            </h1>
-            {detail.data && (
-              <div className="mt-2 sm:mt-3">
-                <StatusBadge status={detail.data.status} />
-              </div>
-            )}
-          </div>
-          {!editing && detail.isSuccess && (
-            <Link
-              to={`/patients/${id}/edit`}
-              state={{ returnTo }}
-              className="inline-flex min-h-11 w-full shrink-0 items-center justify-center rounded-lg bg-primary px-4 py-2 font-medium text-white transition-colors hover:bg-primary-hover motion-reduce:transition-none sm:w-auto"
-            >
-              Edit patient
-            </Link>
-          )}
-        </div>
-        {notice && (
-          <p
-            role="status"
-            className="mb-6 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3.5 text-sm text-emerald-800"
-          >
-            {notice}
-          </p>
-        )}
-        {notice && list.isError && (
-          <div
-            role="alert"
-            className="mb-6 flex flex-col items-stretch gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3.5 text-sm text-red-800 sm:flex-row sm:flex-wrap sm:items-center"
-          >
-            <span>Patient saved, but the list couldn’t refresh.</span>
-            <PmdButton
-              variant="secondary"
-              disabled={list.isFetching}
-              onClick={() => {
-                void list.refetch();
-              }}
-            >
-              Retry list
-            </PmdButton>
-          </div>
-        )}
+        <PatientDetailHeader
+          heading={heading}
+          editing={editing}
+          id={id}
+          patient={detail.data}
+          showEdit={detail.isSuccess}
+          saving={saving}
+          returnTo={returnTo}
+        />
+        <PatientDetailNotices
+          notice={notice}
+          noticeVisible={noticeVisible}
+          listError={list.isError}
+          listFetching={list.isFetching}
+          onDismiss={dismissNotice}
+          onRetryList={() => void list.refetch()}
+        />
         {detail.isPending ? (
           <p role="status" className="text-muted">
             Loading patient…
           </p>
         ) : !detail.data ? (
-          <div role="alert" className="rounded-xl border border-border bg-white p-4 sm:p-6">
-            <h2 className="text-xl font-semibold">
-              {detail.error instanceof ApiError &&
-              (detail.error.status === 404 || detail.error.status === 400)
-                ? 'Patient not found.'
-                : 'Couldn’t load this patient.'}
-            </h2>
-            <PmdButton
-              className="mt-4 w-full sm:w-auto"
-              variant="secondary"
-              disabled={detail.isFetching}
-              onClick={() => {
-                void detail.refetch();
-              }}
-            >
-              Retry
-            </PmdButton>
-          </div>
+          <PatientDetailLoadError
+            error={detail.error}
+            isFetching={detail.isFetching}
+            onRetry={() => void detail.refetch()}
+          />
         ) : editing ? (
           <section
             className="mx-auto min-w-0 max-w-4xl overflow-hidden rounded-xl border border-border bg-white"
@@ -193,7 +139,7 @@ export function PatientPage({ editing = false }: { editing?: boolean }) {
             />
           </section>
         ) : (
-          <PatientDetails patient={detail.data} />
+          <PatientInfomation patient={detail.data} />
         )}
       </DashboardLayout>
       <DiscardChangesDialog
@@ -209,7 +155,145 @@ export function PatientPage({ editing = false }: { editing?: boolean }) {
   );
 }
 
-function PatientDetails({ patient }: { patient: PatientSchema }) {
+function PatientDetailHeader({
+  heading,
+  editing,
+  id,
+  patient,
+  showEdit,
+  saving,
+  returnTo,
+}: {
+  heading: React.RefObject<HTMLHeadingElement | null>;
+  editing: boolean;
+  id: string;
+  patient: PatientSchema | undefined;
+  showEdit: boolean;
+  saving: boolean;
+  returnTo: string;
+}) {
+  return (
+    <>
+      <nav aria-label="Patient navigation" className="mb-3 sm:mb-6">
+        {saving ? (
+          <span className="inline-flex min-h-11 items-center text-sm text-muted">
+            Back to patients
+          </span>
+        ) : (
+          <Link
+            to={returnTo}
+            className="inline-flex min-h-11 items-center gap-1 text-sm font-medium text-primary hover:underline"
+          >
+            <span aria-hidden="true">←</span>Back to patients
+          </Link>
+        )}
+      </nav>
+      <div className="mb-6 flex flex-col items-stretch gap-5 sm:mb-7 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+        <div className="min-w-0 sm:flex-1">
+          <h1
+            ref={heading}
+            tabIndex={-1}
+            className="text-[26px] leading-tight font-semibold tracking-[-.65px] wrap-anywhere outline-none sm:text-[28px] md:text-[32px]"
+          >
+            {editing ? 'Edit patient' : patient ? patientName(patient) : 'Patient details'}
+          </h1>
+          {patient && (
+            <div className="mt-2 sm:mt-3">
+              <StatusBadge status={patient.status} />
+            </div>
+          )}
+        </div>
+        {!editing && showEdit && patient && (
+          <Link
+            to={`/patients/${id}/edit`}
+            state={{ returnTo }}
+            className="inline-flex min-h-11 w-full shrink-0 items-center justify-center rounded-lg bg-primary px-4 py-2 font-medium text-white transition-colors hover:bg-primary-hover motion-reduce:transition-none sm:w-auto"
+          >
+            Edit patient
+          </Link>
+        )}
+      </div>
+    </>
+  );
+}
+
+function PatientDetailNotices({
+  notice,
+  noticeVisible,
+  listError,
+  listFetching,
+  onDismiss,
+  onRetryList,
+}: {
+  notice: string;
+  noticeVisible: boolean;
+  listError: boolean;
+  listFetching: boolean;
+  onDismiss: () => void;
+  onRetryList: () => void;
+}) {
+  return (
+    <>
+      {notice && noticeVisible && (
+        <div
+          role="status"
+          className="mb-6 flex items-center justify-between gap-3 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-2 text-sm text-emerald-800"
+        >
+          <span>{notice}</span>
+          <PmdButton
+            variant="ghost"
+            size="icon"
+            aria-label="Close notification"
+            onClick={onDismiss}
+          >
+            ×
+          </PmdButton>
+        </div>
+      )}
+      {listError && (
+        <div
+          role="alert"
+          className="mb-6 flex flex-col items-stretch gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3.5 text-sm text-red-800 sm:flex-row sm:flex-wrap sm:items-center"
+        >
+          <span>Patient saved, but the list couldn’t refresh.</span>
+          <PmdButton variant="secondary" disabled={listFetching} onClick={onRetryList}>
+            Retry list
+          </PmdButton>
+        </div>
+      )}
+    </>
+  );
+}
+
+function PatientDetailLoadError({
+  error,
+  isFetching,
+  onRetry,
+}: {
+  error: unknown;
+  isFetching: boolean;
+  onRetry: () => void;
+}) {
+  const notFound = error instanceof ApiError && (error.status === 404 || error.status === 400);
+
+  return (
+    <div role="alert" className="rounded-xl border border-border bg-white p-4 sm:p-6">
+      <h2 className="text-xl font-semibold">
+        {notFound ? 'Patient not found.' : 'Couldn’t load this patient.'}
+      </h2>
+      <PmdButton
+        className="mt-4 w-full sm:w-auto"
+        variant="secondary"
+        disabled={isFetching}
+        onClick={onRetry}
+      >
+        Retry
+      </PmdButton>
+    </div>
+  );
+}
+
+function PatientInfomation({ patient }: { patient: PatientSchema }) {
   return (
     <article className="min-w-0 rounded-xl border border-border bg-white">
       <section aria-labelledby="personal-details" className="p-4 sm:p-6">
